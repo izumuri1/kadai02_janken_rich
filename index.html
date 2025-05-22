@@ -1,0 +1,1524 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <script src="js/jquery-2.1.3.min.js"></script>
+    <link rel="stylesheet" href="css/sample.css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>多数決を疑え</title>
+  </head>
+
+  <body class="">
+    <header id="" class="mb-[10px]">
+      <div id="header" class="container w-[960px] mx-auto flex items-center">
+        <h1
+          id=""
+          class="text-center w-full text-6xl text-white font-bold p-[10px] bg-blue-900 bg-gradient-to-t from-blue-300 shadow-xl"
+        >
+          多数決を疑え！
+        </h1>
+      </div>
+    </header>
+
+    <main id="" class="container w-[960px] mx-auto">
+      <div id="" class="">
+        <!-- アプリの説明 -->
+        <div id="" class="mb-[50px]">
+          <h2
+            id=""
+            class="p-[5px] text-2xl font-bold bg-blue-50 shadow-md mb-[10px]"
+          >
+            アプリの説明
+          </h2>
+          <!-- 説明内容を閲覧不要な場合は折り畳みたい -->
+          <div id="" class="pl-[10px]">
+            <p id="" class="py-[5px]">
+              様々な選挙制度に基づき投票をシミュレーションし、各選挙制度がどの程度民意を反映できているかを可視化する。
+            </p>
+            <ol id="" class="py-[3px]">
+              <li id="" class="">
+                １．小選挙区制・・・　一人一票投票し、<span
+                  class="font-bold bg-blue-100"
+                  >最多得票者</span
+                >が当選。
+              </li>
+              <li id="" class="">
+                ２．ボルダルール・・・　候補者に順位を付けて一人三票投票し（1位：3点／2位：2点／3位：1点）、<span
+                  class="font-bold bg-orange-100"
+                  >最多得点者</span
+                >が当選。
+              </li>
+              <li id="" class="">
+                ３．決選投票付多数決・・・　ボルダルール上位三名を2回目投票の候補者として選定。一人一票で決選投票し、<span
+                  class="font-bold bg-blue-100"
+                  >最多得票者</span
+                >が当選。
+              </li>
+            </ol>
+          </div>
+        </div>
+
+        <!-- アプリ -->
+        <!-- アプリタイトル -->
+        <div id="" class="mb-[20px]">
+          <div id="" class="mb-[20px]">
+            <h2
+              id=""
+              class="p-[5px] text-2xl font-bold bg-blue-50 shadow-md mb-[10px]"
+            >
+              投票シミュレーター
+            </h2>
+          </div>
+          <!-- 有権者数入力 -->
+          <div id="" class="grid grid-cols-3 items-center">
+            <!-- 説明欄 -->
+            <div id="" class="pl-[10px]">
+              <!-- Label：説明欄にカーソルすると数値入力を促す -->
+              <label for="numInput" id="" class="py-[5px]"
+                >シミュレーションする有権者数を入力してください。</label
+              >
+            </div>
+            <!-- 数値入力欄 -->
+            <div id="" class="">
+              <input
+                type="number"
+                id="numInput"
+                class="pl-[20px] border rounded w-[100px] bg-gray-100"
+              />
+            </div>
+            <!-- 送信ボタン -->
+            <!-- ★右寄せしたい -->
+            <div id="" class="">
+              <button
+                id="saveNumInput"
+                class="rounded w-32 tracking-widest shadow-md text-white font-bold p-[5px] bg-orange-500 hover:bg-orange-200"
+              >
+                決定
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 1回目投票 -->
+        <div id="" class="mb-[20px]">
+          <h2
+            id=""
+            class="pl-[20px] p-[5px] text-md font-bold bg-blue-50 shadow-md mb-[10px]"
+          >
+            選挙投票１回目
+          </h2>
+        </div>
+        <!-- 投票・開票 -->
+        <div id="" class="grid grid-cols-2">
+          <!-- ◆1回目投票 -->
+          <div id="" class="w-[480px] mb-[30px]">
+            <table id="" class="m-[10px]">
+              <tr class="">
+                <td
+                  class="border border-y-black border-r-black border-l-transparent w-[310px] text-center bg-gray-100"
+                >
+                  候補者氏名（単なるジョークです）
+                </td>
+                <td
+                  class="border border-y-black border-x-black w-[50px] text-center bg-gray-100"
+                >
+                  1位
+                </td>
+                <td
+                  class="border border-y-black border-x-black w-[50px] text-center bg-gray-100"
+                >
+                  2位
+                </td>
+                <td
+                  class="border border-y-black border-r-transparent w-[50px] text-center bg-gray-100"
+                >
+                  3位
+                </td>
+              </tr>
+              <tr class="">
+                <td
+                  class="border border-y-black border-r-black border-l-transparent w-[310px] text-center"
+                >
+                  石破　茂（自由民主党）
+                </td>
+                <td
+                  id="countVote100"
+                  class="border border-y-black border-x-black w-[50px] text-center"
+                ></td>
+                <td
+                  id="countVote101"
+                  class="border border-y-black border-x-black w-[50px] text-center"
+                ></td>
+                <td
+                  id="countVote102"
+                  class="border border-y-black border-r-transparent w-[50px] text-center"
+                ></td>
+              </tr>
+              <tr class="">
+                <td
+                  class="border border-y-black border-r-black border-l-transparent w-[310px] text-center"
+                >
+                  野田　佳彦（立憲民主党）
+                </td>
+                <td
+                  id="countVote110"
+                  class="border border-y-black border-x-black w-[50px] text-center"
+                ></td>
+                <td
+                  id="countVote111"
+                  class="border border-y-black border-x-black w-[50px] text-center"
+                ></td>
+                <td
+                  id="countVote112"
+                  class="border border-y-black border-r-transparent w-[50px] text-center"
+                ></td>
+              </tr>
+              <tr class="">
+                <td
+                  class="border border-y-black border-r-black border-l-transparent w-[310px] text-center"
+                >
+                  玉木　雄一郎（国民民主党）
+                </td>
+                <td
+                  id="countVote120"
+                  class="border border-y-black border-x-black w-[50px] text-center"
+                ></td>
+                <td
+                  id="countVote121"
+                  class="border border-y-black border-x-black w-[50px] text-center"
+                ></td>
+                <td
+                  id="countVote122"
+                  class="border border-y-black border-r-transparent w-[50px] text-center"
+                ></td>
+              </tr>
+              <tr class="">
+                <td
+                  class="border border-y-black border-r-black border-l-transparent w-[310px] text-center"
+                >
+                  馬場　伸幸（日本維新の会）
+                </td>
+                <td
+                  id="countVote130"
+                  class="border border-y-black border-x-black w-[50px] text-center"
+                ></td>
+                <td
+                  id="countVote131"
+                  class="border border-y-black border-x-black w-[50px] text-center"
+                ></td>
+                <td
+                  id="countVote132"
+                  class="border border-y-black border-r-transparent w-[50px] text-center"
+                ></td>
+              </tr>
+              <tr class="">
+                <td
+                  class="border border-y-black border-r-black border-l-transparent w-[310px] text-center"
+                >
+                  石井　啓一（公明党）
+                </td>
+                <td
+                  id="countVote140"
+                  class="border border-y-black border-x-black w-[50px] text-center"
+                ></td>
+                <td
+                  id="countVote141"
+                  class="border border-y-black border-x-black w-[50px] text-center"
+                ></td>
+                <td
+                  id="countVote142"
+                  class="border border-y-black border-r-transparent w-[50px] text-center"
+                ></td>
+              </tr>
+              <tr class="">
+                <td
+                  class="border border-y-black border-r-black border-l-transparent w-[310px] text-center"
+                >
+                  ドナルド・トランプ（共和党）
+                </td>
+                <td
+                  id="countVote150"
+                  class="border border-y-black border-x-black w-[50px] text-center"
+                ></td>
+                <td
+                  id="countVote151"
+                  class="border border-y-black border-x-black w-[50px] text-center"
+                ></td>
+                <td
+                  id="countVote152"
+                  class="border border-y-black border-r-transparent w-[50px] text-center"
+                ></td>
+              </tr>
+              <tr class="">
+                <td
+                  class="border border-y-black border-r-black border-l-transparent w-[310px] text-center"
+                >
+                  ウラジミール・プーチン（統一ロシア）
+                </td>
+                <td
+                  id="countVote160"
+                  class="border border-y-black border-x-black w-[50px] text-center"
+                ></td>
+                <td
+                  id="countVote161"
+                  class="border border-y-black border-x-black w-[50px] text-center"
+                ></td>
+                <td
+                  id="countVote162"
+                  class="border border-y-black border-r-transparent w-[50px] text-center"
+                ></td>
+              </tr>
+              <tr class="">
+                <td
+                  class="border border-y-black border-r-black border-l-transparent w-[310px] text-center"
+                >
+                  金正恩（朝鮮労働党）
+                </td>
+                <td
+                  id="countVote170"
+                  class="border border-y-black border-x-black w-[50px] text-center"
+                ></td>
+                <td
+                  id="countVote171"
+                  class="border border-y-black border-x-black w-[50px] text-center"
+                ></td>
+                <td
+                  id="countVote172"
+                  class="border border-y-black border-r-transparent w-[50px] text-center"
+                ></td>
+              </tr>
+            </table>
+            <!-- 投票 -->
+            <div id="" class="grid grid-cols-2 items-center">
+              <!-- 説明欄 -->
+              <div id="" class="pl-[10px]">
+                <!-- Label：説明欄にカーソルすると数値入力を促す -->
+                <p id="" class="py-[5px]">投票ボタンをクリックしてください。</p>
+              </div>
+              <!-- 送信ボタン -->
+              <!-- ★右寄せしたい -->
+              <div id="" class="">
+                <button
+                  id="vote1"
+                  class="rounded w-32 tracking-widest shadow-md text-white font-bold p-[5px] bg-orange-500 hover:bg-orange-200"
+                >
+                  1回目：投票
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- ◆1回目開票 -->
+          <div id="" class="w-[480px] mb-[30px]">
+            <table id="" class="m-[10px]">
+              <tr class="">
+                <td
+                  class="border border-y-black border-r-black border-l-transparent w-[310px] text-center bg-gray-100"
+                >
+                  候補者氏名（単なるジョークです）
+                </td>
+                <td
+                  class="border border-y-black border-x-black w-[50px] text-center bg-gray-100"
+                >
+                  ルール1
+                </td>
+                <td
+                  class="border border-y-black border-x-black w-[50px] text-center bg-gray-100"
+                >
+                  ルール2
+                </td>
+                <td
+                  class="border border-y-black border-r-transparent w-[50px] text-center bg-gray-100"
+                >
+                  ルール3
+                </td>
+              </tr>
+              <tr class="">
+                <td
+                  class="border border-y-black border-r-black border-l-transparent w-[310px] text-center"
+                >
+                  石破　茂（自由民主党）
+                </td>
+                <td
+                  id="countObj110"
+                  class="border border-y-black border-x-black w-[50px] text-center"
+                ></td>
+                <td
+                  id="countObj120"
+                  class="border border-y-black border-x-black w-[50px] text-center"
+                ></td>
+                <td
+                  class="border border-y-black border-r-transparent w-[50px] text-center bg-gray-300"
+                ></td>
+              </tr>
+              <tr class="">
+                <td
+                  class="border border-y-black border-r-black border-l-transparent w-[310px] text-center"
+                >
+                  野田　佳彦（立憲民主党）
+                </td>
+                <td
+                  id="countObj111"
+                  class="border border-y-black border-x-black w-[50px] text-center"
+                ></td>
+                <td
+                  id="countObj121"
+                  class="border border-y-black border-x-black w-[50px] text-center"
+                ></td>
+                <td
+                  class="border border-y-black border-r-transparent w-[50px] text-center bg-gray-300"
+                ></td>
+              </tr>
+              <tr class="">
+                <td
+                  class="border border-y-black border-r-black border-l-transparent w-[310px] text-center"
+                >
+                  玉木　雄一郎（国民民主党）
+                </td>
+                <td
+                  id="countObj112"
+                  class="border border-y-black border-x-black w-[50px] text-center"
+                ></td>
+                <td
+                  id="countObj122"
+                  class="border border-y-black border-x-black w-[50px] text-center"
+                ></td>
+                <td
+                  class="border border-y-black border-r-transparent w-[50px] text-center bg-gray-300"
+                ></td>
+              </tr>
+              <tr class="">
+                <td
+                  class="border border-y-black border-r-black border-l-transparent w-[310px] text-center"
+                >
+                  馬場　伸幸（日本維新の会）
+                </td>
+                <td
+                  id="countObj113"
+                  class="border border-y-black border-x-black w-[50px] text-center"
+                ></td>
+                <td
+                  id="countObj123"
+                  class="border border-y-black border-x-black w-[50px] text-center"
+                ></td>
+                <td
+                  class="border border-y-black border-r-transparent w-[50px] text-center bg-gray-300"
+                ></td>
+              </tr>
+              <tr class="">
+                <td
+                  class="border border-y-black border-r-black border-l-transparent w-[310px] text-center"
+                >
+                  石井　啓一（公明党）
+                </td>
+                <td
+                  id="countObj114"
+                  class="border border-y-black border-x-black w-[50px] text-center"
+                ></td>
+                <td
+                  id="countObj124"
+                  class="border border-y-black border-x-black w-[50px] text-center"
+                ></td>
+                <td
+                  class="border border-y-black border-r-transparent w-[50px] text-center bg-gray-300"
+                ></td>
+              </tr>
+              <tr class="">
+                <td
+                  class="border border-y-black border-r-black border-l-transparent w-[310px] text-center"
+                >
+                  ドナルド・トランプ（共和党）
+                </td>
+                <td
+                  id="countObj115"
+                  class="border border-y-black border-x-black w-[50px] text-center"
+                ></td>
+                <td
+                  id="countObj125"
+                  class="border border-y-black border-x-black w-[50px] text-center"
+                ></td>
+                <td
+                  class="border border-y-black border-r-transparent w-[50px] text-center bg-gray-300"
+                ></td>
+              </tr>
+              <tr class="">
+                <td
+                  class="border border-y-black border-r-black border-l-transparent w-[310px] text-center"
+                >
+                  ウラジミール・プーチン（統一ロシア）
+                </td>
+                <td
+                  id="countObj116"
+                  class="border border-y-black border-x-black w-[50px] text-center"
+                ></td>
+                <td
+                  id="countObj126"
+                  class="border border-y-black border-x-black w-[50px] text-center"
+                ></td>
+                <td
+                  class="border border-y-black border-r-transparent w-[50px] text-center bg-gray-300"
+                ></td>
+              </tr>
+              <tr class="">
+                <td
+                  class="border border-y-black border-r-black border-l-transparent w-[310px] text-center"
+                >
+                  金正恩（朝鮮労働党）
+                </td>
+                <td
+                  id="countObj117"
+                  class="border border-y-black border-x-black w-[50px] text-center"
+                ></td>
+                <td
+                  id="countObj127"
+                  class="border border-y-black border-x-black w-[50px] text-center"
+                ></td>
+                <td
+                  class="border border-y-black border-r-transparent w-[50px] text-center bg-gray-300"
+                ></td>
+              </tr>
+            </table>
+            <!-- 投票 -->
+            <div id="" class="grid grid-cols-2 items-center">
+              <!-- 説明欄 -->
+              <div id="" class="pl-[10px]">
+                <!-- Label：説明欄にカーソルすると数値入力を促す -->
+                <p id="" class="py-[5px]">開票ボタンをクリックしてください。</p>
+              </div>
+              <!-- 送信ボタン -->
+              <!-- ★右寄せしたい -->
+              <div id="" class="">
+                <button
+                  id="count1"
+                  class="rounded w-32 tracking-widest shadow-md text-white font-bold p-[5px] bg-orange-500 hover:bg-orange-200"
+                >
+                  1回目：開票
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2回目投票 -->
+        <div id="" class="mb-[20px]">
+          <h2
+            id=""
+            class="pl-[20px] p-[5px] text-md font-bold bg-blue-50 shadow-md mb-[10px]"
+          >
+            選挙投票２回目：１回目投票の上位３名による決選投票
+          </h2>
+        </div>
+        <!-- 投票・開票 -->
+        <div id="" class="grid grid-cols-2">
+          <!-- ◆2回目投票 -->
+          <div id="" class="w-[480px] mb-[30px]">
+            <table id="" class="m-[10px]">
+              <tr class="">
+                <td
+                  class="border border-y-black border-r-black border-l-transparent w-[310px] text-center bg-gray-100"
+                >
+                  候補者氏名（単なるジョークです）
+                </td>
+                <td
+                  class="border border-y-black border-x-black w-[50px] text-center bg-gray-100"
+                >
+                  1位
+                </td>
+                <td
+                  class="border border-y-black border-x-black w-[50px] text-center bg-gray-100"
+                >
+                  2位
+                </td>
+                <td
+                  class="border border-y-black border-r-transparent w-[50px] text-center bg-gray-100"
+                >
+                  3位
+                </td>
+              </tr>
+              <tr class="">
+                <td
+                  class="border border-y-black border-r-black border-l-transparent w-[310px] text-center"
+                >
+                  石破　茂（自由民主党）
+                </td>
+                <td
+                  class="border border-y-black border-x-black w-[50px] text-center"
+                ></td>
+                <td
+                  class="border border-y-black border-x-black w-[50px] text-center bg-gray-300"
+                ></td>
+                <td
+                  class="border border-y-black border-r-transparent w-[50px] text-center bg-gray-300"
+                ></td>
+              </tr>
+              <tr class="">
+                <td
+                  class="border border-y-black border-r-black border-l-transparent w-[310px] text-center"
+                >
+                  野田　佳彦（立憲民主党）
+                </td>
+                <td
+                  class="border border-y-black border-x-black w-[50px] text-center"
+                ></td>
+                <td
+                  class="border border-y-black border-x-black w-[50px] text-center bg-gray-300"
+                ></td>
+                <td
+                  class="border border-y-black border-r-transparent w-[50px] text-center bg-gray-300"
+                ></td>
+              </tr>
+              <tr class="">
+                <td
+                  class="border border-y-black border-r-black border-l-transparent w-[310px] text-center"
+                >
+                  玉木　雄一郎（国民民主党）
+                </td>
+                <td
+                  class="border border-y-black border-x-black w-[50px] text-center"
+                ></td>
+                <td
+                  class="border border-y-black border-x-black w-[50px] text-center bg-gray-300"
+                ></td>
+                <td
+                  class="border border-y-black border-r-transparent w-[50px] text-center bg-gray-300"
+                ></td>
+              </tr>
+              <tr class="">
+                <td
+                  class="border border-y-black border-r-black border-l-transparent w-[310px] text-center"
+                >
+                  馬場　伸幸（日本維新の会）
+                </td>
+                <td
+                  class="border border-y-black border-x-black w-[50px] text-center"
+                ></td>
+                <td
+                  class="border border-y-black border-x-black w-[50px] text-center bg-gray-300"
+                ></td>
+                <td
+                  class="border border-y-black border-r-transparent w-[50px] text-center bg-gray-300"
+                ></td>
+              </tr>
+              <tr class="">
+                <td
+                  class="border border-y-black border-r-black border-l-transparent w-[310px] text-center"
+                >
+                  石井　啓一（公明党）
+                </td>
+                <td
+                  class="border border-y-black border-x-black w-[50px] text-center"
+                ></td>
+                <td
+                  class="border border-y-black border-x-black w-[50px] text-center bg-gray-300"
+                ></td>
+                <td
+                  class="border border-y-black border-r-transparent w-[50px] text-center bg-gray-300"
+                ></td>
+              </tr>
+              <tr class="">
+                <td
+                  class="border border-y-black border-r-black border-l-transparent w-[310px] text-center"
+                >
+                  ドナルド・トランプ（共和党）
+                </td>
+                <td
+                  class="border border-y-black border-x-black w-[50px] text-center"
+                ></td>
+                <td
+                  class="border border-y-black border-x-black w-[50px] text-center bg-gray-300"
+                ></td>
+                <td
+                  class="border border-y-black border-r-transparent w-[50px] text-center bg-gray-300"
+                ></td>
+              </tr>
+              <tr class="">
+                <td
+                  class="border border-y-black border-r-black border-l-transparent w-[310px] text-center"
+                >
+                  ウラジミール・プーチン（統一ロシア）
+                </td>
+                <td
+                  class="border border-y-black border-x-black w-[50px] text-center"
+                ></td>
+                <td
+                  class="border border-y-black border-x-black w-[50px] text-center bg-gray-300"
+                ></td>
+                <td
+                  class="border border-y-black border-r-transparent w-[50px] text-center bg-gray-300"
+                ></td>
+              </tr>
+              <tr class="">
+                <td
+                  class="border border-y-black border-r-black border-l-transparent w-[310px] text-center"
+                >
+                  金正恩（朝鮮労働党）
+                </td>
+                <td
+                  class="border border-y-black border-x-black w-[50px] text-center"
+                ></td>
+                <td
+                  class="border border-y-black border-x-black w-[50px] text-center bg-gray-300"
+                ></td>
+                <td
+                  class="border border-y-black border-r-transparent w-[50px] text-center bg-gray-300"
+                ></td>
+              </tr>
+            </table>
+            <!-- 投票 -->
+            <div id="" class="grid grid-cols-2 items-center">
+              <!-- 説明欄 -->
+              <div id="" class="pl-[10px]">
+                <!-- Label：説明欄にカーソルすると数値入力を促す -->
+                <p id="" class="py-[5px]">投票ボタンをクリックしてください。</p>
+              </div>
+              <!-- 送信ボタン -->
+              <!-- ★右寄せしたい -->
+              <div id="" class="">
+                <button
+                  id="vote2"
+                  class="rounded w-32 tracking-widest shadow-md text-white font-bold p-[5px] bg-orange-500 hover:bg-orange-200"
+                >
+                  2回目：投票
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- ◆2回目開票 -->
+          <div id="" class="w-[480px] mb-[30px]">
+            <table id="" class="m-[10px]">
+              <tr class="">
+                <td
+                  class="border border-y-black border-r-black border-l-transparent w-[310px] text-center bg-gray-100"
+                >
+                  候補者氏名（単なるジョークです）
+                </td>
+                <td
+                  class="border border-y-black border-x-black w-[50px] text-center bg-gray-100"
+                >
+                  ルール1
+                </td>
+                <td
+                  class="border border-y-black border-x-black w-[50px] text-center bg-gray-100"
+                >
+                  ルール2
+                </td>
+                <td
+                  class="border border-y-black border-r-transparent w-[50px] text-center bg-gray-100"
+                >
+                  ルール3
+                </td>
+              </tr>
+              <tr class="">
+                <td
+                  class="border border-y-black border-r-black border-l-transparent w-[310px] text-center"
+                >
+                  石破　茂（自由民主党）
+                </td>
+                <td
+                  id="countObj210"
+                  class="border border-y-black border-x-black w-[50px] text-center bg-gray-300"
+                ></td>
+                <td
+                  id="countObj220"
+                  class="border border-y-black border-x-black w-[50px] text-center bg-gray-300"
+                ></td>
+                <td
+                  id="countObj230"
+                  class="border border-y-black border-r-transparent w-[50px] text-center"
+                ></td>
+              </tr>
+              <tr class="">
+                <td
+                  class="border border-y-black border-r-black border-l-transparent w-[310px] text-center"
+                >
+                  野田　佳彦（立憲民主党）
+                </td>
+                <td
+                  id="countObj211"
+                  class="border border-y-black border-x-black w-[50px] text-center bg-gray-300"
+                ></td>
+                <td
+                  id="countObj221"
+                  class="border border-y-black border-x-black w-[50px] text-center bg-gray-300"
+                ></td>
+                <td
+                  id="countObj231"
+                  class="border border-y-black border-r-transparent w-[50px] text-center"
+                ></td>
+              </tr>
+              <tr class="">
+                <td
+                  class="border border-y-black border-r-black border-l-transparent w-[310px] text-center"
+                >
+                  玉木　雄一郎（国民民主党）
+                </td>
+                <td
+                  id="countObj212"
+                  class="border border-y-black border-x-black w-[50px] text-center bg-gray-300"
+                ></td>
+                <td
+                  id="countObj222"
+                  class="border border-y-black border-x-black w-[50px] text-center bg-gray-300"
+                ></td>
+                <td
+                  id="countObj232"
+                  class="border border-y-black border-r-transparent w-[50px] text-center"
+                ></td>
+              </tr>
+              <tr class="">
+                <td
+                  class="border border-y-black border-r-black border-l-transparent w-[310px] text-center"
+                >
+                  馬場　伸幸（日本維新の会）
+                </td>
+                <td
+                  id="countObj213"
+                  class="border border-y-black border-x-black w-[50px] text-center bg-gray-300"
+                ></td>
+                <td
+                  id="countObj223"
+                  class="border border-y-black border-x-black w-[50px] text-center bg-gray-300"
+                ></td>
+                <td
+                  id="countObj233"
+                  class="border border-y-black border-r-transparent w-[50px] text-center"
+                ></td>
+              </tr>
+              <tr class="">
+                <td
+                  class="border border-y-black border-r-black border-l-transparent w-[310px] text-center"
+                >
+                  石井　啓一（公明党）
+                </td>
+                <td
+                  id="countObj214"
+                  class="border border-y-black border-x-black w-[50px] text-center bg-gray-300"
+                ></td>
+                <td
+                  id="countObj224"
+                  class="border border-y-black border-x-black w-[50px] text-center bg-gray-300"
+                ></td>
+                <td
+                  id="countObj234"
+                  class="border border-y-black border-r-transparent w-[50px] text-center"
+                ></td>
+              </tr>
+              <tr class="">
+                <td
+                  class="border border-y-black border-r-black border-l-transparent w-[310px] text-center"
+                >
+                  ドナルド・トランプ（共和党）
+                </td>
+                <td
+                  id="countObj215"
+                  class="border border-y-black border-x-black w-[50px] text-center bg-gray-300"
+                ></td>
+                <td
+                  id="countObj225"
+                  class="border border-y-black border-x-black w-[50px] text-center bg-gray-300"
+                ></td>
+                <td
+                  id="countObj235"
+                  class="border border-y-black border-r-transparent w-[50px] text-center"
+                ></td>
+              </tr>
+              <tr class="">
+                <td
+                  class="border border-y-black border-r-black border-l-transparent w-[310px] text-center"
+                >
+                  ウラジミール・プーチン（統一ロシア）
+                </td>
+                <td
+                  id="countObj216"
+                  class="border border-y-black border-x-black w-[50px] text-center bg-gray-300"
+                ></td>
+                <td
+                  id="countObj226"
+                  class="border border-y-black border-x-black w-[50px] text-center bg-gray-300"
+                ></td>
+                <td
+                  id="countObj236"
+                  class="border border-y-black border-r-transparent w-[50px] text-center"
+                ></td>
+              </tr>
+              <tr class="">
+                <td
+                  class="border border-y-black border-r-black border-l-transparent w-[310px] text-center"
+                >
+                  金正恩（朝鮮労働党）
+                </td>
+                <td
+                  id="countObj217"
+                  class="border border-y-black border-x-black w-[50px] text-center bg-gray-300"
+                ></td>
+                <td
+                  id="countObj227"
+                  class="border border-y-black border-x-black w-[50px] text-center bg-gray-300"
+                ></td>
+                <td
+                  id="countObj237"
+                  class="border border-y-black border-r-transparent w-[50px] text-center"
+                ></td>
+              </tr>
+            </table>
+            <!-- 投票 -->
+            <div id="" class="grid grid-cols-2 items-center">
+              <!-- 説明欄 -->
+              <div id="" class="pl-[10px]">
+                <!-- Label：説明欄にカーソルすると数値入力を促す -->
+                <p id="" class="py-[5px]">開票ボタンをクリックしてください。</p>
+              </div>
+              <!-- 送信ボタン -->
+              <!-- ★右寄せしたい -->
+              <div id="" class="">
+                <button
+                  id="count2"
+                  class="rounded w-32 tracking-widest shadow-md text-white font-bold p-[5px] bg-orange-500 hover:bg-orange-200"
+                >
+                  2回目：開票
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 最終結果 -->
+        <div id="" class="mb-[20px]">
+          <h2
+            id=""
+            class="pl-[20px] p-[5px] text-md font-bold bg-blue-50 shadow-md mb-[10px]"
+          >
+            選挙結果
+          </h2>
+        </div>
+        <!-- 投票・開票 -->
+        <div id="" class="grid grid-cols-2">
+          <!-- ◆開票結果：テキスト -->
+          <div id="" class="w-[480px] mb-[30px] grid grid-rows-3">
+            <div id="" class="pl-[10px] py-[5px]">
+              <h3 id="" class="">
+                1.小選挙区制の当選者：１回目投票の<span
+                  class="font-bold bg-blue-100"
+                  >最多得票者</span
+                >
+              </h3>
+              <h3 id="result1" class="pl-[30px]"></h3>
+            </div>
+            <div id="" class="pl-[10px] py-[5px]">
+              <h3 id="" class="">
+                2.ボルダルールの当選者：１回目投票の<span
+                  class="font-bold bg-orange-100"
+                  >最多得点者</span
+                >
+              </h3>
+              <h3 id="result2" class="pl-[30px]"></h3>
+            </div>
+            <div id="" class="pl-[10px] py-[5px]">
+              <h3 id="" class="">
+                3.決選投票付多数決の当選者：２回目投票の<span
+                  class="font-bold bg-blue-100"
+                  >最多得票者</span
+                >
+              </h3>
+              <h3 id="result3" class="pl-[30px]"></h3>
+            </div>
+          </div>
+          <!-- ◆開票結果：表 -->
+          <div id="" class="w-[480px] mb-[30px]">
+            <table id="" class="m-[10px]">
+              <tr class="">
+                <td
+                  class="border border-y-black border-r-black border-l-transparent w-[310px] text-center bg-gray-100"
+                >
+                  候補者氏名（単なるジョークです）
+                </td>
+                <td
+                  class="border border-y-black border-x-black w-[50px] text-center bg-gray-100"
+                >
+                  ルール1
+                </td>
+                <td
+                  class="border border-y-black border-x-black w-[50px] text-center bg-gray-100"
+                >
+                  ルール2
+                </td>
+                <td
+                  class="border border-y-black border-r-transparent w-[50px] text-center bg-gray-100"
+                >
+                  ルール3
+                </td>
+              </tr>
+              <tr class="">
+                <td
+                  class="border border-y-black border-r-black border-l-transparent w-[310px] text-center"
+                >
+                  石破　茂（自由民主党）
+                </td>
+                <td
+                  id="countObj310"
+                  class="border border-y-black border-x-black w-[50px] text-center"
+                ></td>
+                <td
+                  id="countObj320"
+                  class="border border-y-black border-x-black w-[50px] text-center"
+                ></td>
+                <td
+                  id="countObj330"
+                  class="border border-y-black border-r-transparent w-[50px] text-center"
+                ></td>
+              </tr>
+              <tr class="">
+                <td
+                  class="border border-y-black border-r-black border-l-transparent w-[310px] text-center"
+                >
+                  野田　佳彦（立憲民主党）
+                </td>
+                <td
+                  id="countObj311"
+                  class="border border-y-black border-x-black w-[50px] text-center"
+                ></td>
+                <td
+                  id="countObj321"
+                  class="border border-y-black border-x-black w-[50px] text-center"
+                ></td>
+                <td
+                  id="countObj331"
+                  class="border border-y-black border-r-transparent w-[50px] text-center"
+                ></td>
+              </tr>
+              <tr class="">
+                <td
+                  class="border border-y-black border-r-black border-l-transparent w-[310px] text-center"
+                >
+                  玉木　雄一郎（国民民主党）
+                </td>
+                <td
+                  id="countObj312"
+                  class="border border-y-black border-x-black w-[50px] text-center"
+                ></td>
+                <td
+                  id="countObj322"
+                  class="border border-y-black border-x-black w-[50px] text-center"
+                ></td>
+                <td
+                  id="countObj332"
+                  class="border border-y-black border-r-transparent w-[50px] text-center"
+                ></td>
+              </tr>
+              <tr class="">
+                <td
+                  class="border border-y-black border-r-black border-l-transparent w-[310px] text-center"
+                >
+                  馬場　伸幸（日本維新の会）
+                </td>
+                <td
+                  id="countObj313"
+                  class="border border-y-black border-x-black w-[50px] text-center"
+                ></td>
+                <td
+                  id="countObj323"
+                  class="border border-y-black border-x-black w-[50px] text-center"
+                ></td>
+                <td
+                  id="countObj333"
+                  class="border border-y-black border-r-transparent w-[50px] text-center"
+                ></td>
+              </tr>
+              <tr class="">
+                <td
+                  class="border border-y-black border-r-black border-l-transparent w-[310px] text-center"
+                >
+                  石井　啓一（公明党）
+                </td>
+                <td
+                  id="countObj314"
+                  class="border border-y-black border-x-black w-[50px] text-center"
+                ></td>
+                <td
+                  id="countObj324"
+                  class="border border-y-black border-x-black w-[50px] text-center"
+                ></td>
+                <td
+                  id="countObj334"
+                  class="border border-y-black border-r-transparent w-[50px] text-center"
+                ></td>
+              </tr>
+              <tr class="">
+                <td
+                  class="border border-y-black border-r-black border-l-transparent w-[310px] text-center"
+                >
+                  ドナルド・トランプ（共和党）
+                </td>
+                <td
+                  id="countObj315"
+                  class="border border-y-black border-x-black w-[50px] text-center"
+                ></td>
+                <td
+                  id="countObj325"
+                  class="border border-y-black border-x-black w-[50px] text-center"
+                ></td>
+                <td
+                  id="countObj335"
+                  class="border border-y-black border-r-transparent w-[50px] text-center"
+                ></td>
+              </tr>
+              <tr class="">
+                <td
+                  class="border border-y-black border-r-black border-l-transparent w-[310px] text-center"
+                >
+                  ウラジミール・プーチン（統一ロシア）
+                </td>
+                <td
+                  id="countObj316"
+                  class="border border-y-black border-x-black w-[50px] text-center"
+                ></td>
+                <td
+                  id="countObj326"
+                  class="border border-y-black border-x-black w-[50px] text-center"
+                ></td>
+                <td
+                  id="countObj336"
+                  class="border border-y-black border-r-transparent w-[50px] text-center"
+                ></td>
+              </tr>
+              <tr class="">
+                <td
+                  class="border border-y-black border-r-black border-l-transparent w-[310px] text-center"
+                >
+                  金正恩（朝鮮労働党）
+                </td>
+                <td
+                  id="countObj317"
+                  class="border border-y-black border-x-black w-[50px] text-center"
+                ></td>
+                <td
+                  id="countObj327"
+                  class="border border-y-black border-x-black w-[50px] text-center"
+                ></td>
+                <td
+                  id="countObj337"
+                  class="border border-y-black border-r-transparent w-[50px] text-center"
+                ></td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- フッター -->
+    <footer
+      class="mt-[5px] mb-[20px] container w-[960px] mx-auto text-center py-[5px] bg-gray-100 shadow-md"
+    >
+      <small
+        >&copy; 2025 Izumi Yoshida<br />（参考書籍）多数決を疑う～社会的選択理論とは何か～・坂井豊貴・岩波書店・2015年</small
+      >
+    </footer>
+
+    <script>
+      // ◆リロード時のローカルデータのリセット
+      window.addEventListener("load", function () {
+        localStorage.clear(); // ページが読み込まれるたびにローカルストレージを削除
+        console.log("ローカルストレージのデータをすべて削除しました！");
+      });
+      // ◆グローバル変数定義
+      const can = [
+        "石破　茂",
+        "野田　佳彦",
+        "玉木　雄一郎",
+        "馬場　伸幸",
+        "石井　啓一",
+        "ドナルド・トランプ",
+        "ウラジミール・プーチン",
+        "金正恩",
+      ];
+
+      // ◆◆◆関数定義
+      // ◆1回目投票：偏りのある乱数を生成する
+      function touhyou1kaime() {
+        // 1. 0～7 の数字を格納する配列を作成
+        let vote1 = [];
+
+        // 各数字の重み（選ばれやすさ）をランダムに生成（偏りを強める）
+        let weight = [];
+        for (let i = 0; i < 8; i++) {
+          weight.push(Math.floor(Math.random() * 12) + 1); // 1～12 のランダムな重み
+        }
+
+        // 2. 重みに応じて配列を作成
+        for (let i = 0; i < weight.length; i++) {
+          for (let j = 0; j < weight[i]; j++) {
+            vote1.push(i); // 重みの数だけ要素を追加
+          }
+        }
+
+        // 3. 配列の要素をランダムに並び替える（Fisher-Yates シャッフル）
+        for (let i = vote1.length - 1; i > 0; i--) {
+          let j = Math.floor(Math.random() * (i + 1));
+          let temp = vote1[i];
+          vote1[i] = vote1[j];
+          vote1[j] = temp;
+        }
+
+        // 4. シャッフルされた配列の先頭3つを取得
+        let result = [];
+        for (let i = 0; i < 3; i++) {
+          result.push(vote1[i]);
+        }
+
+        // 5. 結果を返す
+        return result;
+      }
+
+      // ◆1回目投票：指定したインデックスのデータを抽出し、出現回数を集計する
+      function countVotes(storedVote1, index) {
+        // 指定したインデックスの値を取得するための配列を作成
+        let values = [];
+        for (let i = 0; i < storedVote1.length; i++) {
+          values.push(storedVote1[i][index]); // 各要素の index 番目の値を取得して配列に追加
+        }
+        // 出現回数を格納するオブジェクトを初期化（0～7のキーを持つ）
+        let countObj = {};
+        for (let i = 0; i < 8; i++) {
+          countObj[i] = 0; // 各数字のカウントをゼロに設定
+        }
+        // values 配列内の各要素の出現回数を数える
+        for (let i = 0; i < values.length; i++) {
+          let num = values[i]; // 現在の値を取得
+          if (countObj.hasOwnProperty(num)) {
+            // キーが存在する場合のみカウント（念のため）
+            countObj[num]++; // 出現回数を増やす
+          }
+        }
+        return countObj; // 結果を返す
+      }
+
+      // ◆有権者数セット：「決定」オンクリック
+      $("#saveNumInput").on("click", function () {
+        const numVoters = parseFloat($("#numInput").val());
+        localStorage.setItem("savedNumVoters", numVoters);
+      });
+
+      // ◆1回目投票：「1回目投票」オンクリック
+      $("#vote1").on("click", function () {
+        const numVoters = localStorage.getItem("savedNumVoters");
+        let vote1 =
+          JSON.parse(localStorage.getItem("savedVote1")) ||
+          []; /*保存済みの投票結果を取得*/
+        // 1回目投票結果を格納
+        for (let i = 0; i < numVoters; i++) {
+          // 乱数を３つ同時に生成
+          vote1.push(touhyou1kaime());
+          localStorage.setItem("savedVote1", JSON.stringify(vote1));
+        }
+      });
+      // ◆1回目開票：「1回目開票」オンクリック
+      $("#count1").on("click", function () {
+        // ローカルストレージからデータを取得
+        const storedVote1 =
+          JSON.parse(localStorage.getItem("savedVote1")) || [];
+        // 各インデックスの出現回数を計算
+        const voteCount0 = countVotes(storedVote1, 0);
+        const voteCount1 = countVotes(storedVote1, 1);
+        const voteCount2 = countVotes(storedVote1, 2);
+        // ◎ルール１結果
+        // countObj の値「0～7」の出現回数を id=countObj11x に表示、出現回数0の場合は0を表示
+        for (let i = 0; i < 8; i++) {
+          $(`#countObj11${i}`).text(voteCount0[i] || 0);
+          $(`#countObj21${i}`).text(voteCount0[i] || 0);
+          $(`#countObj31${i}`).text(voteCount0[i] || 0);
+        }
+        // 最大の出現回数を取得する処理
+        let voteValues = Object.values(voteCount0); // 得票数のリストを取得
+        let maxValue1 = 0; // 最大値の初期化
+        // 配列をループして最大の値を見つける
+        for (let i = 0; i < voteValues.length; i++) {
+          if (voteValues[i] > maxValue1) {
+            maxValue1 = voteValues[i];
+          }
+        }
+        // 最大値を持つキー（候補者番号）を取得する処理
+        let voteKeys = Object.keys(voteCount0); // 候補者番号のリストを取得
+        let maxKeys1 = []; // 最大値を持つ候補者番号を保存する配列
+        // ループを使って、最大値を持つ候補者番号を探す
+        for (let i = 0; i < voteKeys.length; i++) {
+          let key = voteKeys[i];
+          if (voteCount0[key] === maxValue1) {
+            maxKeys1.push(parseInt(key)); // 数値に変換して配列に追加
+          }
+        }
+        // 最大値を持つ候補者の名前を取得する処理（候補者リスト `can` を使用）
+        let resultText1 = ""; // 表示用の結果を保存する変数
+        let nameList = []; // 最大得票の候補者名を保存するリスト
+        for (let i = 0; i < maxKeys1.length; i++) {
+          let key = maxKeys1[i];
+          nameList.push(can[key]); // 候補者リスト `can` から名前を取得
+        }
+        // 候補者名をカンマ区切りで結合
+        resultText1 = nameList.join(", ");
+        // `#result1` に結果を表示
+        $("#result1").text(resultText1);
+        // ◎ルール２結果：得点
+        for (let i = 0; i < 8; i++) {
+          $(`#countObj12${i}`).text(
+            (voteCount0[i] || 0) * 3 +
+              (voteCount1[i] || 0) * 2 +
+              (voteCount2[i] || 0)
+          );
+          $(`#countObj22${i}`).text(
+            (voteCount0[i] || 0) * 3 +
+              (voteCount1[i] || 0) * 2 +
+              (voteCount2[i] || 0)
+          );
+          $(`#countObj32${i}`).text(
+            (voteCount0[i] || 0) * 3 +
+              (voteCount1[i] || 0) * 2 +
+              (voteCount2[i] || 0)
+          );
+        }
+        // ◎ルール２結果：得票
+        for (let i = 0; i < 8; i++) {
+          $(`#countVote1${i}0`).text(
+            (voteCount0[i] || 0)
+          );
+          $(`#countVote1${i}1`).text(
+            (voteCount1[i] || 0)
+          );
+          $(`#countVote1${i}2`).text(
+            (voteCount2[i] || 0)
+          );
+        }
+        // ◎結果テキスト表示
+        // 計算結果を格納する配列
+        let calculatedValues = []; // 空の配列を用意
+        // 0～7 の範囲でループ処理を行う
+        for (let i = 0; i < 8; i++) {
+          // 各候補者のスコアを計算
+          let score =
+            (voteCount0[i] || 0) * 3 +
+            (voteCount1[i] || 0) * 2 +
+            (voteCount2[i] || 0);
+          // 配列に結果を追加
+          calculatedValues.push(score);
+        }
+        // ユニークな値を格納する配列
+        let sortedUniqueValues = [];
+        // 重複を削除する処理
+        for (let i = 0; i < calculatedValues.length; i++) {
+          let value = calculatedValues[i];
+          // 配列 `sortedUniqueValues` にまだ存在しない場合のみ追加
+          let isDuplicate = false;
+          // ユニーク配列の中にすでに同じ値があるかをチェック
+          for (let j = 0; j < sortedUniqueValues.length; j++) {
+            if (sortedUniqueValues[j] === value) {
+              isDuplicate = true;
+              break;
+            }
+          }
+          // 重複していない場合に値を追加
+          if (!isDuplicate) {
+            sortedUniqueValues.push(value);
+          }
+        }
+        // 降順に並び替える処理
+        for (let i = 0; i < sortedUniqueValues.length; i++) {
+          for (let j = i + 1; j < sortedUniqueValues.length; j++) {
+            if (sortedUniqueValues[i] < sortedUniqueValues[j]) {
+              // 位置を入れ替える（降順ソート）
+              let temp = sortedUniqueValues[i];
+              sortedUniqueValues[i] = sortedUniqueValues[j];
+              sortedUniqueValues[j] = temp;
+            }
+          }
+        }
+        const topThreeValues = sortedUniqueValues.slice(0, 3); // 最大値、2番目、3番目の値を取得（存在しない場合は undefined）
+        // 各値を持つキーを取得
+        let topThreeKeys = [];
+        // `topThreeValues` の各値に対して処理を行う
+        for (let vIndex = 0; vIndex < topThreeValues.length; vIndex++) {
+          let value = topThreeValues[vIndex]; // 現在の値を取得
+          let keyList = []; // この値に対応するインデックスを保存する配列
+          // `calculatedValues` の中から、`value` と一致するインデックスを探す
+          for (let i = 0; i < calculatedValues.length; i++) {
+            if (calculatedValues[i] === value) {
+              keyList.push(i); // `value` と一致するインデックスを `keyList` に追加
+            }
+          }
+          // 見つかったキーのリストを `topThreeKeys` に追加
+          topThreeKeys.push(keyList);
+        }
+        localStorage.setItem("topThreeIndexes", JSON.stringify(topThreeKeys)); // 各値を持つ `can` のインデックスをローカルストレージに保存
+        const maxValue = Math.max(...calculatedValues); // 最大値を取得
+        // 最大値を持つインデックスを取得
+        let maxKeys = [];
+        for (let i = 0; i < calculatedValues.length; i++) {
+          if (calculatedValues[i] === maxValue) {
+            maxKeys.push(i); // 最大値を持つインデックスを追加
+          }
+        }
+        // 最大値を持つ `can` の値を取得
+        let maxCanValues = [];
+        for (let i = 0; i < maxKeys.length; i++) {
+          let key = maxKeys[i];
+          maxCanValues.push(can[key]); // `can` から対応する候補者名を取得
+        }
+        // `#result2` に最大値を持つ `can` の値を表示
+        $("#result2").text(maxCanValues.join(", "));
+      });
+
+      // ◆2回目投票：「2回目投票」オンクリック
+      $("#vote2").on("click", function () {
+        // 1回目投票結果から決選投票の候補者一覧を作成
+        const storedTopThreeKeys =
+          JSON.parse(localStorage.getItem("topThreeIndexes")) || [];
+        // `storedTopThreeKeys` のデータから新しい候補者一覧を作成
+        let newCan = []; // 空の配列を用意
+        // `storedTopThreeKeys` の各要素（候補者インデックスリスト）を処理
+        for (let i = 0; i < storedTopThreeKeys.length; i++) {
+          let topKeys = storedTopThreeKeys[i]; // 現在の候補者インデックスのリストを取得
+          // `topKeys` が配列の場合、各要素（インデックス）を `newCan` に追加
+          for (let j = 0; j < topKeys.length; j++) {
+            let index = topKeys[j]; // 候補者番号を取得
+            newCan.push({ index: index, name: can[index] }); // 候補者オブジェクトを作成して追加
+          }
+        }
+        // 有権者数を数値として取得
+        const numVoters =
+          parseInt(localStorage.getItem("savedNumVoters"), 10) || 0;
+        let vote1 = JSON.parse(localStorage.getItem("savedVote1")) || []; // 1回目投票結果
+        let vote2Results = []; // 2回目投票の結果を格納
+        // `newCan` のインデックス一覧を取得
+        let newCanIndexes = []; // 結果を格納する配列を初期化
+        // `newCan` の各要素を順番に処理
+        for (let i = 0; i < newCan.length; i++) {
+          let item = newCan[i]; // 現在の候補者オブジェクトを取得
+          newCanIndexes.push(item.index); // インデックスを `newCanIndexes` に追加
+        }
+
+        // 各有権者の2回目投票を処理
+        for (let v = 0; v < numVoters; v++) {
+          const voterChoices = vote1[v]; // 各有権者の1回目投票の選択肢
+          console.log("有権者 " + v + " の1回目投票:", voterChoices);
+
+          // 1回目の投票結果に2回目の候補者が含まれているかチェック
+          let commonIndexes = []; // 共通するインデックスを格納する配列を初期化
+
+          // `voterChoices` の各要素（投票された候補者）を処理
+          for (let i = 0; i < voterChoices.length; i++) {
+            let choice = voterChoices[i]; // 現在の投票候補者のインデックスを取得
+
+            // `newCanIndexes` に `choice` が含まれているかチェック
+            for (let j = 0; j < newCanIndexes.length; j++) {
+              if (newCanIndexes[j] === choice) {
+                commonIndexes.push(choice); // 共通するインデックスを追加
+                break; // すでに追加したので、次の `choice` に進む
+              }
+            }
+          }
+
+          if (commonIndexes.length > 0) {
+            // 1回目投票の中で最も若いインデックスの候補者に投票
+            const selectedIndex = Math.min(...commonIndexes);
+            vote2Results.push(selectedIndex);
+          } else {
+            // 乱数生成で2回目投票の候補者からランダムに1名選択
+            const randomIndex =
+              newCanIndexes[Math.floor(Math.random() * newCanIndexes.length)];
+            vote2Results.push(randomIndex);
+          }
+        }
+
+        // ◆2回目投票の集計
+        let voteCount = {}; // 投票結果を格納するオブジェクトを初期化
+        // `newCanIndexes` の各候補者について処理
+        for (let i = 0; i < newCanIndexes.length; i++) {
+          let index = newCanIndexes[i]; // 候補者のインデックスを取得
+          let count = 0; // この候補者の得票数をカウントする変数を初期化
+          // `vote2Results` のすべての投票をチェックし、`index` と一致するものをカウント
+          for (let j = 0; j < vote2Results.length; j++) {
+            if (vote2Results[j] === index) {
+              count++; // 一致する票が見つかればカウントを増やす
+            }
+          }
+          // 集計結果を `voteCount` に保存
+          voteCount[index] = count;
+        }
+
+        // 得票数の降順で並べ替え
+        let voteEntries = []; // 得票数データを配列に格納するための変数
+
+        // `voteCount` の各要素を `voteEntries` に追加
+        for (let key in voteCount) {
+          voteEntries.push([parseInt(key), voteCount[key]]); // [候補者番号, 得票数] のペアを作成
+        }
+
+        // 降順ソートの処理
+        for (let i = 0; i < voteEntries.length - 1; i++) {
+          for (let j = i + 1; j < voteEntries.length; j++) {
+            if (voteEntries[i][1] < voteEntries[j][1]) {
+              // 得票数の大小を比較
+              // 順番を入れ替え
+              let temp = voteEntries[i];
+              voteEntries[i] = voteEntries[j];
+              voteEntries[j] = temp;
+            }
+          }
+        }
+
+        // 上位3つの候補者データを取得
+        let sortedVotes = [];
+        for (let i = 0; i < Math.min(3, voteEntries.length); i++) {
+          sortedVotes.push(voteEntries[i]);
+        }
+
+        // 上位3候補者を取得
+        let topThreeCandidates = []; // 結果を格納する配列を初期化
+
+        // `sortedVotes` の各候補者データを順番に処理
+        for (let i = 0; i < sortedVotes.length; i++) {
+          let candidate = sortedVotes[i]; // [候補者番号, 得票数] のペアを取得
+          let index = parseInt(candidate[0]); // 候補者のインデックスを整数に変換
+          let votes = candidate[1]; // 得票数を取得
+          let name = can[index]; // `can` 配列から候補者名を取得
+
+          // 候補者データをオブジェクトとして配列に追加
+          topThreeCandidates.push({
+            index: index,
+            name: name,
+            votes: votes,
+          });
+        }
+
+        // 最終結果をローカルストレージに保存
+        localStorage.setItem("savedVote2", JSON.stringify(topThreeCandidates));
+      });
+      // 2回目開票：「2回目開票」オンクリック
+      $("#count2").on("click", function () {
+        // ローカルストレージからデータを取得
+        const storedVote2 =
+          JSON.parse(localStorage.getItem("savedVote2")) || [];
+
+        // 各インデックスと得票数を取得し、結果をid=countObj23[index]に表示
+        storedVote2.forEach(function (candidate) {
+          console.log(
+            `候補者インデックス: ${candidate.index}, 名前: ${candidate.name}, 得票数: ${candidate.votes}`
+          );
+          // 各候補者の得票数を適切なIDに表示
+          $(`#countObj23${candidate.index}`).text(candidate.votes);
+          $(`#countObj33${candidate.index}`).text(candidate.votes);
+        });
+        // 最大得票数の候補者を取得
+        var maxCandidate = storedVote2[0];
+        for (var i = 1; i < storedVote2.length; i++) {
+          if (storedVote2[i].votes > maxCandidate.votes) {
+            maxCandidate = storedVote2[i];
+          }
+        }
+        // 結果テキスト表示
+        $("#result3").text(maxCandidate.name);
+      });
+    </script>
+  </body>
+</html>
