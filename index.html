@@ -1136,7 +1136,7 @@
       ];
 
       // ◆◆◆関数定義
-      // ◆1回目投票：偏りのある乱数を生成する
+      // ◆1回目投票：偏りのある乱数を生成する（重複なし）
       function touhyou1kaime() {
         // 1. 0～7 の数字を格納する配列を作成
         let vote1 = [];
@@ -1162,15 +1162,21 @@
           vote1[j] = temp;
         }
 
-        // 4. シャッフルされた配列の先頭3つを取得
+        // 4. シャッフルされた配列から重複なしの3つを取得
         let result = [];
-        for (let i = 0; i < 3; i++) {
-          result.push(vote1[i]);
+        for (let i = 0; i < vote1.length; i++) {
+          if (result.indexOf(vote1[i]) === -1) { // すでに含まれていない場合のみ追加
+            result.push(vote1[i]);
+          }
+          if (result.length === 3) { // 3つ取得したら終了
+            break;
+          }
         }
 
         // 5. 結果を返す
         return result;
       }
+
 
       // ◆1回目投票：指定したインデックスのデータを抽出し、出現回数を集計する
       function countVotes(storedVote1, index) {
@@ -1280,15 +1286,9 @@
         }
         // ◎ルール２結果：得票
         for (let i = 0; i < 8; i++) {
-          $(`#countVote1${i}0`).text(
-            (voteCount0[i] || 0)
-          );
-          $(`#countVote1${i}1`).text(
-            (voteCount1[i] || 0)
-          );
-          $(`#countVote1${i}2`).text(
-            (voteCount2[i] || 0)
-          );
+          $(`#countVote1${i}0`).text(voteCount0[i] || 0);
+          $(`#countVote1${i}1`).text(voteCount1[i] || 0);
+          $(`#countVote1${i}2`).text(voteCount2[i] || 0);
         }
         // ◎結果テキスト表示
         // 計算結果を格納する配列
@@ -1428,6 +1428,13 @@
               newCanIndexes[Math.floor(Math.random() * newCanIndexes.length)];
             vote2Results.push(randomIndex);
           }
+
+          const voterChoices2 = vote2Results[v]; // 各有権者の2回目投票の選択肢
+          console.log("有権者 " + v + " の2回目投票:", voterChoices2);
+          console.log("1回目投票の上位3候補:", storedTopThreeKeys);
+          console.log("2回目投票の候補者（newCanIndexes）:", newCanIndexes);
+          console.log("ランダム選択対象（newCanIndexes）:", newCanIndexes);
+
         }
 
         // ◆2回目投票の集計
